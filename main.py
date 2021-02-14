@@ -7,8 +7,8 @@ class Pawn:
         
     def mov(self, x, y):
     
-        return (x - self.x_pos == 1 and
-                y - self.y_pos == 0)
+        return (x - self.x_pos == 0 and
+                y - self.y_pos == 1)
 
 
 class Bishop:
@@ -49,3 +49,31 @@ class Rook:
                 y - self.y_pos == 0) or
                 (x - self.x_pos == 0 and
                 y - self.y_pos != 0)) 
+                
+                
+class Queen:
+    
+    def __init__(self, x_pos, y_pos):
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        
+    def mov(self, x, y):
+        
+        return ((abs(x - self.x_pos) == abs(y - self.y_pos) and
+                x - self.x_pos != 0) or
+                ((x - self.x_pos != 0 and
+                y - self.y_pos == 0) or
+                (x - self.x_pos == 0 and
+                y - self.y_pos != 0)))
+                
+                
+class King:
+    
+    def __init__(self, x_pos, y_pos):
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        
+    def mov(self, x, y):
+        
+        return ((abs(x - self.x_pos) == 1 or
+                abs(y - self.y_pos) == 1))
