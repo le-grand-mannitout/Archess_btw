@@ -18,9 +18,9 @@ def game_test():
         Temporary "main" function to test the "is_moved" one.
     """
     #Will be with full pieces generation :
-    pieces = tuple(test_generation_white_pawn()) 
+    pieces = test_generation_white_pawn()
     
-    #is_moved(piece_to_move, x, y, pieces)
+    #print(is_moved(pieces[1], "b", 4, pieces))
 
 
 def test_generation_white_pawn():
@@ -35,7 +35,7 @@ def someone_on_case(x, y, pieces):
         Determine if a piece is on the same coordinates as
         the wanted one.
     """
-    for piece in PIECES :
+    for piece in pieces :
         if piece.x_pos == x and piece.y_pos == y:
             return False
 
@@ -160,3 +160,4 @@ class King:
         return (abs(x - self.x_pos) == 1 or
                 abs(y - self.y_pos) == 1)
 
+game_test()
