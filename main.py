@@ -1,13 +1,45 @@
 
-def is_moved(piece, x, y):
+def is_moved(piece_to_move, x, y, pieces):
     """
-        Determine if a piece can be move according to the
-        type of piece and the board dimension
+        Determine if a piece can be moved according to the
+        type of piece, the board dimension and the other pieces
+        positions.
     """
+    
     x = translate_coordinates(x)
     
-    return (piece.mov(x, y) and
-            board_limit(x, y))
+    return (piece_to_move.mov(x, y) and
+            board_limit(x, y) and
+            someone_on_case(x, y, pieces))
+
+
+def game_test():
+    """
+        Temporary "main" function to test the "is_moved" one.
+    """
+    #Will be with full pieces generation :
+    pieces = tuple(test_generation_white_pawn()) 
+    
+    #is_moved(piece_to_move, x, y, pieces)
+
+
+def test_generation_white_pawn():
+    """
+        Temporary pawn generation for testing the rules
+    """
+    return [Pawn(piece_x + 1, 2) for piece_x in range(8)]
+
+
+def someone_on_case(x, y, pieces):
+    """
+        Determine if a piece is on the same coordinates as
+        the wanted one.
+    """
+    for piece in PIECES :
+        if piece.x_pos == x and piece.y_pos == y:
+            return False
+
+    return True
 
 
 def translate_coordinates(x):
@@ -127,3 +159,4 @@ class King:
         """
         return (abs(x - self.x_pos) == 1 or
                 abs(y - self.y_pos) == 1)
+
