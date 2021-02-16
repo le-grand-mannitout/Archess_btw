@@ -5,29 +5,45 @@ def is_moved(piece_to_move, x, y, pieces):
         type of piece, the board dimension and the other pieces
         positions.
     """
-    
     x = translate_coordinates(x)
     
     return (piece_to_move.mov(x, y) and
             board_limit(x, y) and
-            someone_on_case(x, y, pieces))
+            someone_on_case(x, y, pieces["pawn"]))
 
 
 def game_test():
     """
         Temporary "main" function to test the "is_moved" one.
     """
+    pieces = {}
     #Will be with full pieces generation :
-    pieces = test_generation_white_pawn()
-    
-    #print(is_moved(pieces[1], "b", 4, pieces))
+    pieces['pawn'] = test_generation_white_pawn()
+
+    piece_to_move = find_piece_on_case("b", 2, pieces["pawn"])
+
+    return is_moved(piece_to_move, "b", 3, pieces)
+
+
+def find_piece_on_case(x, y, pieces):
+    """
+        Determine wich piece is on given coordinates
+    """
+    #Will be optimized with the other one from is_moved function
+    x = translate_coordinates(x)
+
+    for piece in pieces :
+        if piece.x_pos == x and piece.y_pos == y:
+            return piece
+
+    return None
 
 
 def test_generation_white_pawn():
     """
-        Temporary pawn generation for testing the rules
+        Temporary pawn generation for testing the rules.
     """
-    return [Pawn(piece_x + 1, 2) for piece_x in range(8)]
+    return [Pawn(piece_x + 1, 2, piece_x + 1) for piece_x in range(8)]
 
 
 def someone_on_case(x, y, pieces):
@@ -44,7 +60,7 @@ def someone_on_case(x, y, pieces):
 
 def translate_coordinates(x):
     """
-        Translate chess x coordinate (str) to int 
+        Translate chess x coordinate (str) to int.
     """
     try :
         LETTER_COORDINATES = ("abcdefgh")
@@ -57,7 +73,7 @@ def translate_coordinates(x):
 
 def board_limit(x, y):
     """
-        Determine if move coordinates are included in the chess board
+        Determine if move coordinates are included in the chess board.
     """
     return ((x > 0 and x <= 8) and
             (y > 0 and y <= 8))
@@ -65,14 +81,15 @@ def board_limit(x, y):
 
 class Pawn:
     
-    def __init__(self, x_pos, y_pos):
+    def __init__(self, x_pos, y_pos, ident):
         self.x_pos = x_pos
         self.y_pos = y_pos
+        self.ident = ident
         
     def mov(self, x, y):
         """
             Determine if movement is correct according to the
-            pawn allowed moves
+            pawn allowed moves.
         """
         return (x - self.x_pos == 0 and
                 y - self.y_pos == 1)
@@ -80,14 +97,15 @@ class Pawn:
 
 class Bishop:
     
-    def __init__(self, x_pos, y_pos):
+    def __init__(self, x_pos, y_pos, ident):
         self.x_pos = x_pos
         self.y_pos = y_pos
+        self.ident = ident
         
     def mov(self, x, y):
         """
             Determine if movement is correct according to the
-            bishop allowed moves
+            bishop allowed moves.
         """
         return (abs(x - self.x_pos) == abs(y - self.y_pos) and
                 x - self.x_pos != 0)
@@ -95,14 +113,15 @@ class Bishop:
 
 class Knight:
     
-    def __init__(self, x_pos, y_pos):
+    def __init__(self, x_pos, y_pos, ident):
         self.x_pos = x_pos
         self.y_pos = y_pos
+        self.ident = ident
         
     def mov(self, x, y):
         """
             Determine if movement is correct according to
-            knight allowed moves
+            knight allowed moves.
         """
         return ((abs(x - self.x_pos) == 2 and
                 abs(y - self.y_pos) == 1) or
@@ -112,31 +131,33 @@ class Knight:
 
 class Rook:
 
-    def __init__(self, x_pos, y_pos):
+    def __init__(self, x_pos, y_pos, ident):
         self.x_pos = x_pos
         self.y_pos = y_pos
+        self.ident = ident
         
     def mov(self, x, y):
         """
             Determine if movement is correct according to
-            rook allowed moves
+            rook allowed moves.
         """
         return ((x - self.x_pos != 0 and
                 y - self.y_pos == 0) or
                 (x - self.x_pos == 0 and
                 y - self.y_pos != 0)) 
-                
-                
+
+
 class Queen:
     
-    def __init__(self, x_pos, y_pos):
+    def __init__(self, x_pos, y_pos, ident):
         self.x_pos = x_pos
         self.y_pos = y_pos
+        self.ident = ident
         
     def mov(self, x, y):
         """
             Determine if movement is correct according to
-            queen allowed moves
+            queen allowed moves.
         """
         return ((abs(x - self.x_pos) == abs(y - self.y_pos) and
                 x - self.x_pos != 0) or
@@ -148,16 +169,18 @@ class Queen:
                 
 class King:
     
-    def __init__(self, x_pos, y_pos):
+    def __init__(self, x_pos, y_pos, ident):
         self.x_pos = x_pos
         self.y_pos = y_pos
+        self.ident = ident
         
     def mov(self, x, y):
         """
             Determine if movement is correct according to
-            king allowed moves
+            king allowed moves.
         """
         return (abs(x - self.x_pos) == 1 or
                 abs(y - self.y_pos) == 1)
 
-game_test()
+
+#print(game_test())
