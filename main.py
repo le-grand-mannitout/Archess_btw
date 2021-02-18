@@ -5,17 +5,16 @@ def is_moved(piece_to_move, x, y, pieces):
         type of piece, the board dimension and the other pieces
         positions.
     """
-    x = translate_coordinates(x)    #Will be optimized with the others functions
-    
     return (piece_to_move.mov(x, y) and
             board_limit(x, y) and
             someone_on_case(x, y, pieces["pawn"]))
 
 
 def move_piece(piece_to_move, x, y, pieces):
-
-    x = translate_coordinates(x)    #Will be optimized with the others functions
-
+    """
+        Move a piece by changing piece coordinates on the pieces
+        dictionnary. 
+    """
     new_pos = piece_to_move
     new_pos.x_pos = x
     new_pos.y_pos = y 
@@ -25,28 +24,58 @@ def move_piece(piece_to_move, x, y, pieces):
     return pieces
 
 
+def get_user_input():
+    """ 
+        Get user play input, syntax must be: "pawntomove coordinates_to_go" 
+        ex: e2 e3.
+    """
+    play = input().split(" ")
+
+    return play
+
+
+def format_user_input(user_input):
+    """
+        Format user input to be interpretated by the chess program.
+    """
+    
+    for coordinate in user_input:
+        
+        list_coordinate = list(coordinate)
+
+        list_coordinate[0] = int(translate_coordinates(list_coordinate[0]))
+        list_coordinate[1] = int(list_coordinate[1])
+
+        user_input[user_input.index(coordinate)] = list_coordinate
+
+    return user_input
+
+
 def game_test():
     """
-        Temporary "main" function to test the "is_moved" one.
+        Temporary function to test the implemented basic games mechanics.
     """
     pieces = {}
     #Will be with full pieces generation :
     pieces['pawn'] = test_generation_white_pawn()
 
-    #Exemple :
-    piece_to_move = find_piece_on_case("b", 2, pieces["pawn"])
+    while 1:
+        user_input = format_user_input(get_user_input())
 
-    if is_moved(piece_to_move, "b", 3, pieces):
-        pieces = move_piece(piece_to_move, "b", 3, pieces)
+        co_to_move = user_input[0]
+        x, y = user_input[1][0], user_input[1][1]
+
+        piece_to_move = find_piece_on_case(co_to_move[0], co_to_move[1], pieces)
+
+        if is_moved(piece_to_move, x, y, pieces):
+            pieces = move_piece(piece_to_move, x, y, pieces)
 
 
 def find_piece_on_case(x, y, pieces):
     """
-        Determine wich piece is on given coordinates
+        Determine wich piece is on given coordinates.
     """
-    x = translate_coordinates(x)    #Will be optimized with the others functions
-
-    for piece in pieces :
+    for piece in pieces["pawn"] :
         if piece.x_pos == x and piece.y_pos == y:
             return piece
 
@@ -65,8 +94,6 @@ def someone_on_case(x, y, pieces):
         Determine if a piece is on the same coordinates as
         the wanted one.
     """
-    translate_coordinates(x)    #Will be optimized with the others functions
-
     for piece in pieces :
         if piece.x_pos == x and piece.y_pos == y:
             return False
