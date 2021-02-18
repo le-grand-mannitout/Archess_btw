@@ -37,8 +37,8 @@ def game_test():
     piece_to_move = find_piece_on_case("b", 2, pieces["pawn"])
 
     if is_moved(piece_to_move, "b", 3, pieces):
-        move_piece(piece_to_move, "b", 3, pieces)
-        
+        pieces = move_piece(piece_to_move, "b", 3, pieces)
+
 
 def find_piece_on_case(x, y, pieces):
     """
