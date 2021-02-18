@@ -5,11 +5,24 @@ def is_moved(piece_to_move, x, y, pieces):
         type of piece, the board dimension and the other pieces
         positions.
     """
-    x = translate_coordinates(x)
+    x = translate_coordinates(x)    #Will be optimized with the others functions
     
     return (piece_to_move.mov(x, y) and
             board_limit(x, y) and
             someone_on_case(x, y, pieces["pawn"]))
+
+
+def move_piece(piece_to_move, x, y, pieces):
+
+    x = translate_coordinates(x)    #Will be optimized with the others functions
+
+    new_pos = piece_to_move
+    new_pos.x_pos = x
+    new_pos.y_pos = y 
+
+    pieces["pawn"][pieces["pawn"].index(piece_to_move)] = new_pos
+
+    return pieces
 
 
 def game_test():
@@ -20,17 +33,18 @@ def game_test():
     #Will be with full pieces generation :
     pieces['pawn'] = test_generation_white_pawn()
 
+    #Exemple :
     piece_to_move = find_piece_on_case("b", 2, pieces["pawn"])
 
-    return is_moved(piece_to_move, "b", 3, pieces)
-
+    if is_moved(piece_to_move, "b", 3, pieces):
+        move_piece(piece_to_move, "b", 3, pieces)
+        
 
 def find_piece_on_case(x, y, pieces):
     """
         Determine wich piece is on given coordinates
     """
-    #Will be optimized with the other one from is_moved function
-    x = translate_coordinates(x)
+    x = translate_coordinates(x)    #Will be optimized with the others functions
 
     for piece in pieces :
         if piece.x_pos == x and piece.y_pos == y:
@@ -51,6 +65,8 @@ def someone_on_case(x, y, pieces):
         Determine if a piece is on the same coordinates as
         the wanted one.
     """
+    translate_coordinates(x)    #Will be optimized with the others functions
+
     for piece in pieces :
         if piece.x_pos == x and piece.y_pos == y:
             return False
@@ -183,4 +199,4 @@ class King:
                 abs(y - self.y_pos) == 1)
 
 
-#print(game_test())
+game_test()
