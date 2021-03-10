@@ -13,20 +13,20 @@ def is_moved(piece_to_move, x, y, pieces):
 def move_piece(piece_to_move, x, y, pieces):
     """
         Move a piece by changing piece coordinates on the pieces
-        dictionnary. 
+        dictionnary.
     """
     new_pos = piece_to_move
     new_pos.x_pos = x
-    new_pos.y_pos = y 
+    new_pos.y_pos = y
 
     pieces["pawn"][pieces["pawn"].index(piece_to_move)] = new_pos
 
     return pieces
 
 
-def get_user_input():
-    """ 
-        Get user play input, syntax must be: "pawntomove coordinates_to_go" 
+def get_user_input() -> list:
+    """
+        Get user play input, syntax must be: "pawntomove coordinates_to_go"
         ex: e2 e3.
     """
     play = input().split(" ")
@@ -38,9 +38,9 @@ def format_user_input(user_input):
     """
         Format user input to be interpretated by the chess program.
     """
-    
+
     for coordinate in user_input:
-        
+
         list_coordinate = list(coordinate)
 
         list_coordinate[0] = int(translate_coordinates(list_coordinate[0]))
@@ -56,7 +56,7 @@ def game_test():
         Temporary function to test the implemented basic games mechanics.
     """
     pieces = {}
-    #Will be with full pieces generation :
+    # Will be with full pieces generation :
     pieces['pawn'] = test_generation_white_pawn()
 
     while 1:
@@ -65,7 +65,9 @@ def game_test():
         co_to_move = user_input[0]
         x, y = user_input[1][0], user_input[1][1]
 
-        piece_to_move = find_piece_on_case(co_to_move[0], co_to_move[1], pieces)
+        piece_to_move = find_piece_on_case(co_to_move[0],
+                                           co_to_move[1],
+                                           pieces)
 
         if is_moved(piece_to_move, x, y, pieces):
             pieces = move_piece(piece_to_move, x, y, pieces)
@@ -75,7 +77,7 @@ def find_piece_on_case(x, y, pieces):
     """
         Determine wich piece is on given coordinates.
     """
-    for piece in pieces["pawn"] :
+    for piece in pieces["pawn"]:
         if piece.x_pos == x and piece.y_pos == y:
             return piece
 
@@ -94,7 +96,7 @@ def someone_on_case(x, y, pieces):
         Determine if a piece is on the same coordinates as
         the wanted one.
     """
-    for piece in pieces :
+    for piece in pieces:
         if piece.x_pos == x and piece.y_pos == y:
             return False
 
@@ -105,11 +107,11 @@ def translate_coordinates(x):
     """
         Translate chess x coordinate (str) to int.
     """
-    try :
+    try:
         LETTER_COORDINATES = ("abcdefgh")
-        
-        return LETTER_COORDINATES.index(x) + 1    
- 
+
+        return LETTER_COORDINATES.index(x) + 1
+
     except TypeError:
         return x
 
@@ -123,12 +125,12 @@ def board_limit(x, y):
 
 
 class Pawn:
-    
+
     def __init__(self, x_pos, y_pos, ident):
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.ident = ident
-        
+
     def mov(self, x, y):
         """
             Determine if movement is correct according to the
@@ -139,12 +141,12 @@ class Pawn:
 
 
 class Bishop:
-    
+
     def __init__(self, x_pos, y_pos, ident):
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.ident = ident
-        
+
     def mov(self, x, y):
         """
             Determine if movement is correct according to the
@@ -155,12 +157,12 @@ class Bishop:
 
 
 class Knight:
-    
+
     def __init__(self, x_pos, y_pos, ident):
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.ident = ident
-        
+
     def mov(self, x, y):
         """
             Determine if movement is correct according to
@@ -178,7 +180,7 @@ class Rook:
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.ident = ident
-        
+
     def mov(self, x, y):
         """
             Determine if movement is correct according to
@@ -187,16 +189,16 @@ class Rook:
         return ((x - self.x_pos != 0 and
                 y - self.y_pos == 0) or
                 (x - self.x_pos == 0 and
-                y - self.y_pos != 0)) 
+                y - self.y_pos != 0))
 
 
 class Queen:
-    
+
     def __init__(self, x_pos, y_pos, ident):
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.ident = ident
-        
+
     def mov(self, x, y):
         """
             Determine if movement is correct according to
@@ -205,18 +207,18 @@ class Queen:
         return ((abs(x - self.x_pos) == abs(y - self.y_pos) and
                 x - self.x_pos != 0) or
                 ((x - self.x_pos != 0 and
-                y - self.y_pos == 0) or
+                 y - self.y_pos == 0) or
                 (x - self.x_pos == 0 and
-                y - self.y_pos != 0)))
-                
-                
+                 y - self.y_pos != 0)))
+
+
 class King:
-    
+
     def __init__(self, x_pos, y_pos, ident):
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.ident = ident
-        
+
     def mov(self, x, y):
         """
             Determine if movement is correct according to
