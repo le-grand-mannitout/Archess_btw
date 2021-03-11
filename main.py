@@ -1,13 +1,5 @@
 
-class Piece:
-
-    def __init__(self, x_pos: int,
-                 y_pos: int,
-                 ident: int):
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.ident = ident
-
+from piece import *
 
 def is_moved(piece_to_move: Piece,
              x: int,
@@ -67,28 +59,6 @@ def format_user_input(user_input: list) -> list:
     return user_input
 
 
-def game_test():
-    """
-        Temporary function to test the implemented basic games mechanics.
-    """
-    pieces = {}
-    # Will be with full pieces generation :
-    pieces['pawn'] = test_generation_white_pawn()
-
-    while 1:
-        user_input = format_user_input(get_user_input())
-
-        co_to_move = user_input[0]
-        x, y = user_input[1][0], user_input[1][1]
-
-        piece_to_move = find_piece_on_case(co_to_move[0],
-                                           co_to_move[1],
-                                           pieces)
-
-        if is_moved(piece_to_move, x, y, pieces):
-            pieces = move_piece(piece_to_move, x, y, pieces)
-
-
 def find_piece_on_case(x: int,
                        y: int,
                        pieces: dict) -> Piece:
@@ -141,80 +111,3 @@ def board_limit(x: int,
     """
     return ((x > 0 and x <= 8) and
             (y > 0 and y <= 8))
-
-
-class Pawn(Piece):
-
-    def mov(self, x: int, y: int) -> bool:
-        """
-            Determine if movement is correct according to the
-            pawn allowed moves.
-        """
-        return (x - self.x_pos == 0 and
-                y - self.y_pos == 1)
-
-
-class Bishop(Piece):
-
-    def mov(self, x: int, y: int) -> bool:
-        """
-            Determine if movement is correct according to the
-            bishop allowed moves.
-        """
-        return (abs(x - self.x_pos) == abs(y - self.y_pos) and
-                x - self.x_pos != 0)
-
-
-class Knight(Piece):
-
-    def mov(self, x: int, y: int) -> bool:
-        """
-            Determine if movement is correct according to
-            knight allowed moves.
-        """
-        return ((abs(x - self.x_pos) == 2 and
-                abs(y - self.y_pos) == 1) or
-                (abs(x - self.x_pos) == 1 and
-                abs(y - self.y_pos) == 2))
-
-
-class Rook(Piece):
-
-    def mov(self, x: int, y: int) -> bool:
-        """
-            Determine if movement is correct according to
-            rook allowed moves.
-        """
-        return ((x - self.x_pos != 0 and
-                y - self.y_pos == 0) or
-                (x - self.x_pos == 0 and
-                y - self.y_pos != 0))
-
-
-class Queen(Piece):
-
-    def mov(self, x: int, y: int) -> bool:
-        """
-            Determine if movement is correct according to
-            queen allowed moves.
-        """
-        return ((abs(x - self.x_pos) == abs(y - self.y_pos) and
-                x - self.x_pos != 0) or
-                ((x - self.x_pos != 0 and
-                 y - self.y_pos == 0) or
-                (x - self.x_pos == 0 and
-                 y - self.y_pos != 0)))
-
-
-class King(Piece):
-
-    def mov(self, x: int, y: int) -> bool:
-        """
-            Determine if movement is correct according to
-            king allowed moves.
-        """
-        return (abs(x - self.x_pos) == 1 or
-                abs(y - self.y_pos) == 1)
-
-
-game_test()
