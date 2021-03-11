@@ -124,12 +124,15 @@ def board_limit(x, y):
             (y > 0 and y <= 8))
 
 
-class Pawn:
+class Piece:
 
     def __init__(self, x_pos, y_pos, ident):
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.ident = ident
+
+
+class Pawn(Piece):
 
     def mov(self, x, y):
         """
@@ -140,12 +143,7 @@ class Pawn:
                 y - self.y_pos == 1)
 
 
-class Bishop:
-
-    def __init__(self, x_pos, y_pos, ident):
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.ident = ident
+class Bishop(Piece):
 
     def mov(self, x, y):
         """
@@ -156,12 +154,7 @@ class Bishop:
                 x - self.x_pos != 0)
 
 
-class Knight:
-
-    def __init__(self, x_pos, y_pos, ident):
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.ident = ident
+class Knight(Piece):
 
     def mov(self, x, y):
         """
@@ -174,12 +167,7 @@ class Knight:
                 abs(y - self.y_pos) == 2))
 
 
-class Rook:
-
-    def __init__(self, x_pos, y_pos, ident):
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.ident = ident
+class Rook(Piece):
 
     def mov(self, x, y):
         """
@@ -192,12 +180,7 @@ class Rook:
                 y - self.y_pos != 0))
 
 
-class Queen:
-
-    def __init__(self, x_pos, y_pos, ident):
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.ident = ident
+class Queen(Piece):
 
     def mov(self, x, y):
         """
@@ -212,12 +195,7 @@ class Queen:
                  y - self.y_pos != 0)))
 
 
-class King:
-
-    def __init__(self, x_pos, y_pos, ident):
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.ident = ident
+class King(Piece):
 
     def mov(self, x, y):
         """
