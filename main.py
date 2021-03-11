@@ -1,5 +1,18 @@
 
-def is_moved(piece_to_move, x, y, pieces):
+class Piece:
+
+    def __init__(self, x_pos: int,
+                 y_pos: int,
+                 ident: int):
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.ident = ident
+
+
+def is_moved(piece_to_move: Piece,
+             x: int,
+             y: int,
+             pieces: dict) -> bool:
     """
         Determine if a piece can be moved according to the
         type of piece, the board dimension and the other pieces
@@ -10,7 +23,10 @@ def is_moved(piece_to_move, x, y, pieces):
             someone_on_case(x, y, pieces["pawn"]))
 
 
-def move_piece(piece_to_move, x, y, pieces):
+def move_piece(piece_to_move: Piece,
+               x: int,
+               y: int,
+               pieces: dict) -> dict:
     """
         Move a piece by changing piece coordinates on the pieces
         dictionnary.
@@ -34,7 +50,7 @@ def get_user_input() -> list:
     return play
 
 
-def format_user_input(user_input):
+def format_user_input(user_input: list) -> list:
     """
         Format user input to be interpretated by the chess program.
     """
@@ -73,7 +89,9 @@ def game_test():
             pieces = move_piece(piece_to_move, x, y, pieces)
 
 
-def find_piece_on_case(x, y, pieces):
+def find_piece_on_case(x: int,
+                       y: int,
+                       pieces: dict) -> Piece:
     """
         Determine wich piece is on given coordinates.
     """
@@ -81,17 +99,17 @@ def find_piece_on_case(x, y, pieces):
         if piece.x_pos == x and piece.y_pos == y:
             return piece
 
-    return None
 
-
-def test_generation_white_pawn():
+def test_generation_white_pawn() -> list:
     """
         Temporary pawn generation for testing the rules.
     """
     return [Pawn(piece_x + 1, 2, piece_x + 1) for piece_x in range(8)]
 
 
-def someone_on_case(x, y, pieces):
+def someone_on_case(x: int,
+                    y: int,
+                    pieces: dict) -> bool:
     """
         Determine if a piece is on the same coordinates as
         the wanted one.
@@ -103,7 +121,7 @@ def someone_on_case(x, y, pieces):
     return True
 
 
-def translate_coordinates(x):
+def translate_coordinates(x: str) -> int:
     """
         Translate chess x coordinate (str) to int.
     """
@@ -116,7 +134,8 @@ def translate_coordinates(x):
         return x
 
 
-def board_limit(x, y):
+def board_limit(x: int,
+                y: int) -> bool:
     """
         Determine if move coordinates are included in the chess board.
     """
@@ -124,17 +143,9 @@ def board_limit(x, y):
             (y > 0 and y <= 8))
 
 
-class Piece:
-
-    def __init__(self, x_pos, y_pos, ident):
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.ident = ident
-
-
 class Pawn(Piece):
 
-    def mov(self, x, y):
+    def mov(self, x: int, y: int) -> bool:
         """
             Determine if movement is correct according to the
             pawn allowed moves.
@@ -145,7 +156,7 @@ class Pawn(Piece):
 
 class Bishop(Piece):
 
-    def mov(self, x, y):
+    def mov(self, x: int, y: int) -> bool:
         """
             Determine if movement is correct according to the
             bishop allowed moves.
@@ -156,7 +167,7 @@ class Bishop(Piece):
 
 class Knight(Piece):
 
-    def mov(self, x, y):
+    def mov(self, x: int, y: int) -> bool:
         """
             Determine if movement is correct according to
             knight allowed moves.
@@ -169,7 +180,7 @@ class Knight(Piece):
 
 class Rook(Piece):
 
-    def mov(self, x, y):
+    def mov(self, x: int, y: int) -> bool:
         """
             Determine if movement is correct according to
             rook allowed moves.
@@ -182,7 +193,7 @@ class Rook(Piece):
 
 class Queen(Piece):
 
-    def mov(self, x, y):
+    def mov(self, x: int, y: int) -> bool:
         """
             Determine if movement is correct according to
             queen allowed moves.
@@ -197,7 +208,7 @@ class Queen(Piece):
 
 class King(Piece):
 
-    def mov(self, x, y):
+    def mov(self, x: int, y: int) -> bool:
         """
             Determine if movement is correct according to
             king allowed moves.
